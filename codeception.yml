@@ -5,7 +5,21 @@ paths:
     support: tests/_support
     envs: tests/_envs
 actor_suffix: Tester
+settings:
+    bootstrap: _bootstrap.php
+    memory_limit: 1024M
+    colors: true
+    suite_class: \PHPUnit_Framework_TestSuite
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
-        - CodeCoverage
+        - Nebulosar\CodeCeptCodeCov\CodeCovReporter
+coverage:
+    enabled: true
+    show_only_summary: true
+    low_limit: 0
+    high_limit: 80
+    check_for: ['lines', 'classes', 'methods']
+    whitelist:
+        include:
+            - src/*

@@ -3,6 +3,8 @@
     "description": "Extension for codeception. Can be used to fail tests if they are under the coverage threshold",
     "type": "library",
     "license": "MIT License",
+    "keywords": ["codeception", "code coverage", "coverage", "extension"],
+    "homepage": "https://github.com/Nebulosar/CodeCeptCodeCov",
     "authors": [
         {
             "name": "Nebulosar",
@@ -11,6 +13,10 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "php": ">=7.3.0",
         "codeception/codeception": "*"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "3.*"
     }
 }

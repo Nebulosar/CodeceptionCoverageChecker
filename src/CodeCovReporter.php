@@ -1,22 +1,19 @@
 <?php
 
+namespace Nebulosar\CodeCeptCodeCov;
+
 use Codeception\Configuration;
 use Codeception\Event\PrintResultEvent;
 use Codeception\Events;
-use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\CodeCoverageException;
 use SebastianBergmann\CodeCoverage\Node\Directory;
 
-class CodeCoverage extends \Codeception\Platform\Extension
+class CodeCovReporter extends \Codeception\Platform\Extension
 {
     public static $events = [
         Events::RESULT_PRINT_AFTER => 'checkCoverage'
     ];
-    private $_colors = [
-        'green' => "\x1b[30;42m",
-        'yellow' => "\x1b[30;43m",
-        'red' => "\x1b[37;41m",
-        'reset' => "\x1b[0m",
-    ];
+
     protected $_settings = [
         'enabled' => true,
         'low_limit' => '50',
@@ -26,7 +23,7 @@ class CodeCoverage extends \Codeception\Platform\Extension
 
     public function __construct($config, $options)
     {
-        $config = Configuration::config();
+        $config = array_merge($config, Configuration::config());
         $this->_settings['enabled'] =
             isset($config['coverage']) &&
             isset($config['coverage']['enabled']) &&
@@ -38,8 +35,7 @@ class CodeCoverage extends \Codeception\Platform\Extension
                 $options['coverage-text'] !== false ||
                 $options['coverage-crap4j'] !== false ||
                 $options['coverage-phpunit'] !== false
-            )
-        ;
+            );
         if ($this->_settings['enabled']) {
             $this->_settings = array_merge($this->_settings, Configuration::config()['coverage']);
         }
@@ -49,7 +45,7 @@ class CodeCoverage extends \Codeception\Platform\Extension
     public function checkCoverage(PrintResultEvent $event)
     {
         $codeCoverage = $event->getResult()->getCodeCoverage();
-        $printer = $event->getPrinter();
+        $printer = new CodeCovPrinter($event->getPrinter());
         if ($this->_settings['enabled'] && !empty($codeCoverage)) {
             $percentages = $this->calculatePercentages($codeCoverage->getReport());
             $hasError = false;
@@ -64,7 +60,7 @@ class CodeCoverage extends \Codeception\Platform\Extension
                 }
             }
             if ($hasError) {
-                throw new Exception();
+                throw new CodeCoverageException();
             }
         }
     }
@@ -138,50 +134,5 @@ class CodeCoverage extends \Codeception\Platform\Extension
             }
         }
         return $percentages;
-    }
-
-    private function formatError($type, $linePercentage)
-    {
-        $type = ucfirst($type);
-        $output = PHP_EOL . PHP_EOL;
-        $lineOutput = 'ERROR: ' . PHP_EOL
-            . $type . ' coverage lower than low threshold' . PHP_EOL
-            . 'Threshold: ' . $this->_settings['low_limit'] . '%' . PHP_EOL
-            . 'Coverage: ' . $linePercentage;
-        $padding = strlen($lineOutput);
-        $output .= $this->format($this->_colors['red'], $padding, $lineOutput);
-        return $output . PHP_EOL;
-    }
-
-    private function formatWarning($type, $linePercentage)
-    {
-        $type = ucfirst($type);
-        $output = PHP_EOL . PHP_EOL;
-        $lineOutput = 'WARNING: ' . PHP_EOL
-            . $type . ' coverage lower than high threshold' . PHP_EOL
-            . 'Threshold: ' . $this->_settings['high_limit'] . '%' . PHP_EOL
-            . 'Coverage: ' . $linePercentage;
-        $padding = strlen($lineOutput);
-        $output .= $this->format($this->_colors['yellow'], $padding, $lineOutput);
-        return $output . PHP_EOL;
-    }
-
-    private function formatSuccess($type, $linePercentage)
-    {
-        $type = ucfirst($type);
-        $output = PHP_EOL . PHP_EOL;
-        $lineOutput = 'SUCCESS: ' . PHP_EOL
-            . $type . ' coverage higher than high threshold' . PHP_EOL
-            . 'Threshold: ' . $this->_settings['high_limit'] . '%' . PHP_EOL
-            . 'Coverage: ' . $linePercentage;
-        $padding = strlen($lineOutput);
-        $output .= $this->format($this->_colors['green'], $padding, $lineOutput);
-        return $output . PHP_EOL;
-    }
-
-    private function format($color, $padding, $string)
-    {
-        $reset = $color ? $this->_colors['reset'] : '';
-        return $color . str_pad($string, $padding) . $reset . PHP_EOL;
     }
 }
