@@ -1,6 +1,6 @@
 {
     "name": "nebulosar/codecept-codecov",
-    "description": "Extension for codeception. Can be used to fail tests if they are under the coverage treshhold",
+    "description": "Extension for codeception. Can be used to fail tests if they are under the coverage threshold",
     "type": "library",
     "license": "MIT License",
     "authors": [
@@ -10,5 +10,7 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "codeception/codeception": "*"
+    }
 }

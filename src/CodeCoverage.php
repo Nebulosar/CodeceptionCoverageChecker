@@ -1,7 +1,5 @@
 <?php
 
-namespace Extension;
-
 use Codeception\Configuration;
 use Codeception\Event\PrintResultEvent;
 use Codeception\Events;
