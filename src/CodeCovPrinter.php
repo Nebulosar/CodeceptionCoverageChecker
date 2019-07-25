@@ -1,71 +1,87 @@
 <?php
+
 namespace Nebulosar\CodeCeptCodeCov;
 
 use \PHPUnit\Util\Printer;
 
 class CodeCovPrinter
 {
-    protected $colors = [
+    protected const COLORS = [
         'green' => "\x1b[30;42m",
         'yellow' => "\x1b[30;43m",
         'red' => "\x1b[37;41m",
         'reset' => "\x1b[0m",
+        'header' => "\x1b[1;37;40m",
     ];
+    protected $noColors;
 
     protected $printer;
 
-    public function __construct(Printer $printer)
+    public function __construct(Printer $printer, bool $noColors = false)
     {
         $this->printer = $printer;
+        $this->noColors = $noColors;
     }
 
-    public function write(string $message): void {
+    final public function write(string $type, string $limit, string $linePercentage, string $severity): void
+    {
+        $message = PHP_EOL;
+        $message .= $this->$severity($type, $limit, $linePercentage);
         $this->printer->write($message);
     }
 
-    public function formatError($type, $linePercentage)
+    final private function formatError(string $type, string $limit, string $linePercentage): string
     {
-        $type = ucfirst($type);
-        $output = PHP_EOL . PHP_EOL;
-        $lineOutput = 'ERROR: ' . PHP_EOL
-            . $type . ' coverage lower than low threshold' . PHP_EOL
-            . 'Threshold: ' . $this->_settings['low_limit'] . '%' . PHP_EOL
-            . 'Coverage: ' . $linePercentage;
-        $padding = strlen($lineOutput);
-        $output .= $this->format($this->colors['red'], $padding, $lineOutput);
-        return $output . PHP_EOL;
+        $title = ' ERROR: ' . ucfirst($type) . ' coverage lower than threshold ';
+        $title = $this->format(self::COLORS['header'], strlen($title), $title);
+        $lines = [
+            '  ' . 'Threshold: ' . $limit . '%',
+            '  ' . 'Coverage: ' . $linePercentage,
+        ];
+        return $this->formatMessage($title, $lines, self::COLORS['red']);
     }
 
-    public function formatWarning($type, $linePercentage)
+    final private function formatWarning(string $type, string $limit, string $linePercentage): string
     {
-        $type = ucfirst($type);
-        $output = PHP_EOL . PHP_EOL;
-        $lineOutput = 'WARNING: ' . PHP_EOL
-            . $type . ' coverage lower than high threshold' . PHP_EOL
-            . 'Threshold: ' . $this->_settings['high_limit'] . '%' . PHP_EOL
-            . 'Coverage: ' . $linePercentage;
-        $padding = strlen($lineOutput);
-        $output .= $this->format($this->colors['yellow'], $padding, $lineOutput);
-        return $output . PHP_EOL;
+        $title = ' WARNING: ' . ucfirst($type) . ' coverage lower than threshold ';
+        $title = $this->format(self::COLORS['header'], strlen($title), $title);
+        $lines = [
+            '  ' . 'Threshold: ' . $limit . '%',
+            '  ' . 'Coverage: ' . $linePercentage,
+        ];
+        return $this->formatMessage($title, $lines, self::COLORS['yellow']);
+
     }
 
-    public function formatSuccess($type, $linePercentage): string
+    final private function formatSuccess(string $type, string $limit, string $linePercentage): string
     {
-        $type = ucfirst($type);
-        $output = PHP_EOL . PHP_EOL;
-        $lineOutput = 'SUCCESS: ' . PHP_EOL
-            . $type . ' coverage higher than high threshold' . PHP_EOL
-            . 'Threshold: ' . $this->_settings['high_limit'] . '%' . PHP_EOL
-            . 'Coverage: ' . $linePercentage;
-        $padding = strlen($lineOutput);
-        $output .= $this->format($this->colors['green'], $padding, $lineOutput);
-        return $output . PHP_EOL;
+        $title = ' SUCCESS: ' . ucfirst($type) . ' coverage higher than threshold ';
+        $title = $this->format(self::COLORS['header'], strlen($title), $title);
+        $lines = [
+            '  ' . 'Threshold: ' . $limit . '%',
+            '  ' . 'Coverage: ' . $linePercentage,
+        ];
+        return $this->formatMessage($title, $lines, self::COLORS['green']);
     }
 
-    public function format($color, $padding, $string)
+    final private function formatMessage(string $title, array $lines, string $color): string
     {
-        $reset = $color ? $this->colors['reset'] : '';
-        return $color . str_pad($string, $padding) . $reset . PHP_EOL;
+        $lineLength = strlen($title . PHP_EOL . PHP_EOL);
+        for ($i = 0; $i < count($lines); $i++) {
+            $lineLength = $lineLength < strlen($lines[$i]) ? strlen($lines[$i]) : $lineLength;
+            $lines[$i] = $this->format($color, $lineLength - strlen($lines[$i]), $lines[$i]);
+        }
+        return $title . PHP_EOL . implode(PHP_EOL, $lines) . PHP_EOL;
     }
 
+    final private function format(string $color, int $padding, string $string): string
+    {
+        if ($this->noColors) {
+            $color = '';
+        } elseif (strpos($color, "\x1b[") !== 0) {
+            $color = isset(self::COLORS[$color]) ? self::COLORS[$color] : '';
+        }
+        $reset = $color ? self::COLORS['reset'] : '';
+        return $color . str_pad($string, $padding) . $reset;
+    }
 }

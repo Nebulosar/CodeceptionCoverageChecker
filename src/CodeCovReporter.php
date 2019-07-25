@@ -14,7 +14,7 @@ class CodeCovReporter extends \Codeception\Platform\Extension
         Events::RESULT_PRINT_AFTER => 'checkCoverage'
     ];
 
-    protected $_settings = [
+    protected $settings = [
         'enabled' => true,
         'low_limit' => '50',
         'high_limit' => '80',
@@ -24,7 +24,7 @@ class CodeCovReporter extends \Codeception\Platform\Extension
     public function __construct($config, $options)
     {
         $config = array_merge($config, Configuration::config());
-        $this->_settings['enabled'] =
+        $this->settings['enabled'] =
             isset($config['coverage']) &&
             isset($config['coverage']['enabled']) &&
             $config['coverage']['enabled'] == true &&
@@ -36,8 +36,11 @@ class CodeCovReporter extends \Codeception\Platform\Extension
                 $options['coverage-crap4j'] !== false ||
                 $options['coverage-phpunit'] !== false
             );
-        if ($this->_settings['enabled']) {
-            $this->_settings = array_merge($this->_settings, Configuration::config()['coverage']);
+        if ($this->settings['enabled']) {
+            $this->settings = array_merge($this->settings, Configuration::config()['coverage']);
+
+            $this->settings['low_limit'] = number_format((float)$this->settings['low_limit'], 2, '.', '');
+            $this->settings['high_limit'] = number_format((float)$this->settings['high_limit'], 2, '.', '');
         }
         parent::__construct($config, $options);
     }
@@ -46,18 +49,22 @@ class CodeCovReporter extends \Codeception\Platform\Extension
     {
         $codeCoverage = $event->getResult()->getCodeCoverage();
         $printer = new CodeCovPrinter($event->getPrinter());
-        if ($this->_settings['enabled'] && !empty($codeCoverage)) {
+        if ($this->settings['enabled'] && !empty($codeCoverage)) {
             $percentages = $this->calculatePercentages($codeCoverage->getReport());
             $hasError = false;
             foreach ($percentages as $type => $percentage) {
-                if ($percentage['int'] < $this->_settings['low_limit']) {
-                    $printer->write($this->formatError($type, $percentage['string']));
+                if ($percentage['int'] < $this->settings['low_limit']) {
+                    $limit = $this->settings['low_limit'];
+                    $severity = Severity::ERROR;
                     $hasError = true;
-                } elseif ($percentage['int'] < $this->_settings['high_limit']) {
-                    $printer->write($this->formatWarning($type, $percentage['string']));
+                } elseif ($percentage['int'] < $this->settings['high_limit']) {
+                    $limit = $this->settings['low_limit'];
+                    $severity = Severity::WARNING;
                 } else {
-                    $printer->write($this->formatSuccess($type, $percentage['string']));
+                    $limit = $this->settings['high_limit'];
+                    $severity = Severity::SUCCESS;
                 }
+                $printer->write($type, $limit, $percentage['string'], $severity);
             }
             if ($hasError) {
                 throw new CodeCoverageException();
@@ -81,13 +88,13 @@ class CodeCovReporter extends \Codeception\Platform\Extension
             return sprintf($format, $percentage);
         }
 
-        return $percentage;
+        return number_format($percentage, 2, '.', '');
     }
 
     private function calculatePercentages(Directory $report)
     {
         $percentages = [];
-        foreach ($this->_settings['check_for'] as $checkType) {
+        foreach ($this->settings['check_for'] as $checkType) {
             switch (strtolower($checkType)) {
                 case 'classes':
                 case 'class':
