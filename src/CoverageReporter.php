@@ -25,7 +25,7 @@ class CoverageReporter extends Extension
      */
     public function __construct(array $config, array $options)
     {
-        $config = array_merge($config, Configuration::config());
+        $config = array_merge(Configuration::config(), $config);
         $this->_enabled =
             isset($config['coverage']) &&
             isset($config['coverage']['enabled']) &&

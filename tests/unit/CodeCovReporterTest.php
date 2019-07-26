@@ -1,10 +1,16 @@
 <?php
+
 namespace Tests\Nebulosar\Unit;
 
+use Codeception\Event\PrintResultEvent;
 use Codeception\Stub\Expected;
 use Codeception\Test\Unit;
 use Exception;
 use Nebulosar\Codeception\CoverageChecker\CoverageReporter;
+use PHPUnit\Framework\CodeCoverageException;
+use PHPUnit\Framework\TestResult;
+use PHPUnit\Util\Printer;
+use SebastianBergmann\CodeCoverage\CodeCoverage;
 
 class CodeCovReporterTest extends Unit
 {
@@ -49,6 +55,9 @@ class CodeCovReporterTest extends Unit
         $reporter->__construct($config, ['coverage-phpunit' => true]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function testConstructDisabled(): void
     {
         $config = [
@@ -70,13 +79,47 @@ class CodeCovReporterTest extends Unit
         ])->__construct($config, []);
     }
 
-    public function testInit(): void
-    {
-
-    }
-
+    /**
+     * @throws Exception
+     */
     public function testCheckCoverage(): void
     {
-
+        $coverage = new CodeCoverage();
+        $result = new TestResult();
+        $result->setCodeCoverage($coverage);
+        $event = $this->make(PrintResultEvent::class, [
+            'getResult' => $result,
+            'getPrinter' => $this->makeEmpty(Printer::class),
+        ]);
+        $config = [
+            'coverage' => [
+                'enabled' => true,
+                'check' => [
+                    'classes' => [
+                        'low_limit' => 70,
+                        'high_limit' => 90,
+                    ],
+                    'methods' => [
+                        'low_limit' => 70,
+                        'high_limit' => 90,
+                    ],
+                    'lines' => [
+                        'low_limit' => 70,
+                        'high_limit' => 90,
+                    ]
+                ],
+            ]
+        ];
+        $options = [
+            'coverage' => true
+        ];
+        $this->throwException(new CodeCoverageException());
+        $reporter = new CoverageReporter($config, $options);
+        try {
+            $reporter->checkCoverage($event);
+            $this->fail('This test should throw an CodeCoverageException');
+        } catch (CodeCoverageException $e) {
+            $this->assertTrue(true);
+        }
     }
 }

@@ -2,9 +2,7 @@
 
 namespace Tests\Nebulosar\Unit\Checker;
 
-use AspectMock\Test as AspectMock;
 use Codeception\Stub\Expected;
-use Codeception\TestCase;
 use Exception;
 use Nebulosar\Codeception\CoverageChecker\Checker;
 use Codeception\Test\Unit;
@@ -49,11 +47,6 @@ class CheckerTest extends Unit
         $this->checker = new $this->checkerClass();
         $this->_mockPrinter = $this->makeEmpty(Printer::class);
         parent::_before();
-    }
-    public function _after(): void
-    {
-        AspectMock::clean();
-        parent::_after();
     }
 
     public function testGetWriter(): void

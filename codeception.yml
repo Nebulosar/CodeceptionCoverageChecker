@@ -18,15 +18,15 @@ coverage:
     enabled: true
     only_summary: true
     check:
-        lines:
-            low_limit: 0
-            high_limit: 80
         classes:
-            low_limit: 0
-            high_limit: 80
+            low_limit: 65
+            high_limit: 85
         methods:
-            low_limit: 0
-            high_limit: 80
+            low_limit: 65
+            high_limit: 85
+        lines:
+            low_limit: 65
+            high_limit: 85
     whitelist:
         include:
             - src/*

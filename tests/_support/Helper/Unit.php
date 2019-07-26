@@ -14,7 +14,6 @@ use PHPUnit\Util\Printer;
 use ReflectionClass;
 use ReflectionException;
 use SebastianBergmann\CodeCoverage\Node\Directory;
-use Unit\ExtendedDirectory;
 
 class Unit extends Module
 {
