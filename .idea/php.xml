@@ -71,14 +71,6 @@
       <path value="$PROJECT_DIR$/vendor/phar-io/version" />
       <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
       <path value="$PROJECT_DIR$/vendor/dg/bypass-finals" />
-      <path value="$PROJECT_DIR$/vendor/goaop/framework" />
-      <path value="$PROJECT_DIR$/vendor/goaop/parser-reflection" />
-      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
-      <path value="$PROJECT_DIR$/vendor/jakubledl/dissect" />
-      <path value="$PROJECT_DIR$/vendor/codeception/aspect-mock" />
-      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
-      <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
-      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

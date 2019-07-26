@@ -2,7 +2,7 @@
 
 namespace Nebulosar\Codeception\CoverageChecker;
 
-use \PHPUnit\Util\Printer;
+use PHPUnit\Util\Printer;
 
 abstract class Writer
 {

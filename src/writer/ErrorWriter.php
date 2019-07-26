@@ -2,7 +2,6 @@
 
 namespace Nebulosar\Codeception\CoverageChecker;
 
-
 class ErrorWriter extends Writer
 {
     private $color = self::COLORS['red'];

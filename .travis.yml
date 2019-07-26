@@ -11,12 +11,10 @@ cache:
     - vendor
     - $HOME/.composer/cache
 
-# before_install: phpenv config-rm xdebug.ini
-
 install:
-  - composer update --no-interaction
+  - composer update
   - vendor/bin/codecept build -q
 
 script:
-  - vendor/bin/phpcs --standard=PSR1,PSR2 src tests/unit tests/functional &&
+  - vendor/bin/phpcs --standard=PSR.xml src tests/unit tests/functional &&
     codecept run unit,functional --coverage

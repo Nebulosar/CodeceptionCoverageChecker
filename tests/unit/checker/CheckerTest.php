@@ -3,9 +3,9 @@
 namespace Tests\Nebulosar\Unit\Checker;
 
 use Codeception\Stub\Expected;
+use Codeception\Test\Unit;
 use Exception;
 use Nebulosar\Codeception\CoverageChecker\Checker;
-use Codeception\Test\Unit;
 use Nebulosar\Codeception\CoverageChecker\ErrorWriter;
 use Nebulosar\Codeception\CoverageChecker\SuccessWriter;
 use Nebulosar\Codeception\CoverageChecker\WarningWriter;
