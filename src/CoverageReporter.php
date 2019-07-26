@@ -32,12 +32,12 @@ class CoverageReporter extends Extension
             $config['coverage']['enabled'] == true &&
             isset($config['coverage']['check']) &&
             (
-                $options['coverage'] !== false ||
-                $options['coverage-xml'] !== false ||
-                $options['coverage-html'] !== false ||
-                $options['coverage-text'] !== false ||
-                $options['coverage-crap4j'] !== false ||
-                $options['coverage-phpunit'] !== false
+                (isset($options['coverage']) && $options['coverage'] !== false) ||
+                (isset($options['coverage-xml']) && $options['coverage-xml'] !== false) ||
+                (isset($options['coverage-html']) && $options['coverage-html'] !== false) ||
+                (isset($options['coverage-text']) && $options['coverage-text'] !== false) ||
+                (isset($options['coverage-crap4j']) && $options['coverage-crap4j'] !== false) ||
+                (isset($options['coverage-phpunit']) && $options['coverage-phpunit'] !== false)
             );
         if ($this->_enabled) {
             $this->init($config['coverage']);
@@ -49,7 +49,7 @@ class CoverageReporter extends Extension
      * Initializes all the checkers
      * @param array $config - The config of the coverage part of codeception
      */
-    private function init(array $config): void
+    protected function init(array $config): void
     {
         foreach ($config['check'] as $checkType => $limits) {
             $lowLimit = isset($limits['low_limit']) ? number_format($limits['low_limit'], 2, '.', '') : null;

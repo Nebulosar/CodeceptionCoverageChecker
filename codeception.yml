@@ -16,6 +16,7 @@ extensions:
         - Nebulosar\Codeception\CoverageChecker\CoverageReporter
 coverage:
     enabled: true
+    only_summary: true
     check:
         lines:
             low_limit: 0
