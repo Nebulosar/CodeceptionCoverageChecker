@@ -1,6 +1,6 @@
 <?php
 
-use Nebulosar\CodeCeptCodeCov\CodeCovReporter;
+use Nebulosar\Codeception\CoverageChecker\CoverageReporter;
 
 class CodeCovReporterCest
 {

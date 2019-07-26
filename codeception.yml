@@ -13,13 +13,19 @@ settings:
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
-        - Nebulosar\CodeCeptCodeCov\CodeCovReporter
+        - Nebulosar\Codeception\CoverageChecker\CoverageReporter
 coverage:
     enabled: true
-    show_only_summary: true
-    low_limit: 0
-    high_limit: 80
-    check_for: ['lines', 'classes', 'methods']
+    check:
+        lines:
+            low_limit: 0
+            high_limit: 80
+        classes:
+            low_limit: 0
+            high_limit: 80
+        methods:
+            low_limit: 0
+            high_limit: 80
     whitelist:
         include:
             - src/*

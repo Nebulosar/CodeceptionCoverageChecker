@@ -1,22 +1,37 @@
 {
-    "name": "nebulosar/codecept-codecov",
+    "name": "nebulosar/codeception-coverage-checker",
     "description": "Extension for codeception. Can be used to fail tests if they are under the coverage threshold",
     "type": "library",
     "license": "MIT License",
-    "keywords": ["codeception", "code coverage", "coverage", "extension"],
+    "keywords": ["codeception", "code coverage", "coverage", "extension", "code checker", "check"],
     "homepage": "https://github.com/Nebulosar/CodeCeptCodeCov",
     "authors": [
         {
-            "name": "Nebulosar",
-            "email": "harmzeinstra@hotmail.com"
+            "name": "Harm Zeinstra",
+            "email": "harmzeinstra@hotmail.com",
+            "homepage": "https://mhzeinstra.com"
         }
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.3.0",
+        "php": ">=7.2.0",
         "codeception/codeception": "*"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "3.*"
+        "squizlabs/php_codesniffer": "*",
+        "dg/bypass-finals": "*"
+    },
+    "autoload": {
+        "psr-0": { "Nebulosar\\Codeception\\CoverageChecker": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Nebulosar\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "composer dump-autoload -o"
+        ]
     }
 }

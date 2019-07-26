@@ -1,17 +1,27 @@
 <?php
+namespace Tests\Nebulosar\Unit;
 
-use Nebulosar\CodeCeptCodeCov\CodeCovReporter;
 use Codeception\Test\Unit;
 
 class CodeCovReporterTest extends Unit
 {
 
-    public function test__construct()
+    public function testConstructEnabled(): void
     {
 
     }
 
-    public function testCheckCoverage()
+    public function testConstructOtherOptions(): void
+    {
+
+    }
+
+    public function testInit(): void
+    {
+
+    }
+
+    public function testCheckCoverage(): void
     {
 
     }
