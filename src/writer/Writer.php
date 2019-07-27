@@ -36,7 +36,7 @@ abstract class Writer
         for ($i = 0; $i < count($lines); $i++) {
             $lineLength = $lineLength < strlen($lines[$i]) ? strlen($lines[$i]) : $lineLength;
             $padding = $lineLength - strlen($lines[$i]);
-            $padding = $i !== count($lines) ? ++$padding : $padding;
+            $padding = $i === count($lines) -1 ? --$padding : $padding;
             $lines[$i] = $this->formatLine($color, $padding, $lines[$i]);
         }
         return $title . PHP_EOL . implode(PHP_EOL, $lines) . PHP_EOL;
