@@ -13,14 +13,16 @@ abstract class Writer
         'reset' => "\x1b[0m",
         'header' => "\x1b[1;37;40m",
     ];
-    protected $noColors;
+    /**
+     * @var bool
+     */
+    public static $noColors = false;
 
     protected $printer;
 
-    public function __construct(Printer $printer, bool $noColors = false)
+    public function __construct(Printer $printer)
     {
         $this->printer = $printer;
-        $this->noColors = $noColors;
     }
 
     abstract public function write(string $type, string $limit, string $linePercentage): void;
@@ -44,7 +46,7 @@ abstract class Writer
 
     protected function formatLine(string $color, int $padding, string $string): string
     {
-        if ($this->noColors) {
+        if (self::$noColors) {
             $color = '';
         } elseif (strpos($color, "\x1b[") !== 0) {
             $color = isset(self::COLORS[$color]) ? self::COLORS[$color] : '';

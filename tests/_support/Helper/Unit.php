@@ -8,6 +8,7 @@ namespace Helper;
 use Codeception\Module;
 use Codeception\Stub;
 use Codeception\Stub\Expected;
+use Codeception\TestInterface;
 use Exception;
 use Nebulosar\Codeception\CoverageChecker\Writer;
 use PHPUnit\Util\Printer;
@@ -17,6 +18,19 @@ use SebastianBergmann\CodeCoverage\Node\Directory;
 
 class Unit extends Module
 {
+    private $noColors = false;
+    public function _before(TestInterface $test)
+    {
+        $this->noColors = Writer::$noColors;
+        parent::_before($test);
+    }
+
+    public function _after(TestInterface $test)
+    {
+        Writer::$noColors = $this->noColors;
+        parent::_after($test);
+    }
+
     /**
      * Call a private / protected method
      * @param object $class - The class that holds the method
@@ -51,7 +65,8 @@ class Unit extends Module
             'write' => Expected::exactly($invocationsOfPrinter)
         ]);
         assert($mockPrinter instanceof Printer);
-        return new $class($mockPrinter, $noColors);
+        Writer::$noColors = $noColors;
+        return new $class($mockPrinter);
     }
 
     /**

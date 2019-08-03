@@ -40,6 +40,7 @@ class CoverageReporter extends Extension
                 (isset($options['coverage-phpunit']) && $options['coverage-phpunit'] !== false)
             );
         if ($this->_enabled) {
+            Writer::$noColors = (isset($options['no-colors']) && $options['no-colors'] !== false);
             $this->init($config['coverage']);
         }
         parent::__construct($config, $options);
