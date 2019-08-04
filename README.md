@@ -26,7 +26,7 @@ Simple add the CoverageReporter to the _codeception.yml_ file:
 ```
 extensions:
   enabled:
-    - Nebulosar\Codeception\CoverageChecker\CoverageReporter
+    - Nebulosar\Codeception\CoverageChecker
 ```
 
 Also make sure you enable the code coverage option of Codeception:
