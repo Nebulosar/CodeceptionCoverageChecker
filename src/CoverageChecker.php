@@ -1,15 +1,20 @@
 <?php
 
-namespace Nebulosar\Codeception\CoverageChecker;
+namespace Nebulosar\Codeception;
 
 use Codeception\Configuration;
 use Codeception\Event\PrintResultEvent;
 use Codeception\Events;
 use Codeception\Exception\ConfigurationException;
 use Codeception\Platform\Extension;
+use Nebulosar\Codeception\CoverageChecker\Checker;
+use Nebulosar\Codeception\CoverageChecker\ClassChecker;
+use Nebulosar\Codeception\CoverageChecker\LineChecker;
+use Nebulosar\Codeception\CoverageChecker\MethodChecker;
+use Nebulosar\Codeception\CoverageChecker\Writer;
 use PHPUnit\Framework\CodeCoverageException;
 
-class CoverageReporter extends Extension
+class CoverageChecker extends Extension
 {
     public static $events = [
         Events::RESULT_PRINT_AFTER => 'checkCoverage'

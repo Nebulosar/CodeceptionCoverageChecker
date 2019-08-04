@@ -13,7 +13,7 @@ settings:
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
-        - Nebulosar\Codeception\CoverageChecker\CoverageReporter
+        - Nebulosar\Codeception\CoverageChecker
 coverage:
     enabled: true
     only_summary: true

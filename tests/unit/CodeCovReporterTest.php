@@ -6,7 +6,7 @@ use Codeception\Event\PrintResultEvent;
 use Codeception\Stub\Expected;
 use Codeception\Test\Unit;
 use Exception;
-use Nebulosar\Codeception\CoverageChecker\CoverageReporter;
+use Nebulosar\Codeception\CoverageChecker;
 use PHPUnit\Framework\CodeCoverageException;
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Util\Printer;
@@ -29,7 +29,7 @@ class CodeCovReporterTest extends Unit
         $options = [
             'coverage' => true
         ];
-        $this->makeEmptyExcept(CoverageReporter::class, '__construct', [
+        $this->makeEmptyExcept(CoverageChecker::class, '__construct', [
             'init' => Expected::once($config['coverage'])
         ])->__construct($config, $options);
     }
@@ -45,7 +45,7 @@ class CodeCovReporterTest extends Unit
                 'check' => true,
             ]
         ];
-        $reporter = $this->makeEmptyExcept(CoverageReporter::class, '__construct', [
+        $reporter = $this->makeEmptyExcept(CoverageChecker::class, '__construct', [
             'init' => Expected::exactly(5, $config['coverage'])
         ]);
         $reporter->__construct($config, ['coverage-xml' => true]);
@@ -65,7 +65,7 @@ class CodeCovReporterTest extends Unit
                 'enabled' => false,
             ]
         ];
-        $this->makeEmptyExcept(CoverageReporter::class, '__construct', [
+        $this->makeEmptyExcept(CoverageChecker::class, '__construct', [
             'init' => Expected::never()
         ])->__construct($config, []);
 
@@ -74,7 +74,7 @@ class CodeCovReporterTest extends Unit
                 'enabled' => true,
             ]
         ];
-        $this->makeEmptyExcept(CoverageReporter::class, '__construct', [
+        $this->makeEmptyExcept(CoverageChecker::class, '__construct', [
             'init' => Expected::never()
         ])->__construct($config, []);
     }
@@ -114,7 +114,7 @@ class CodeCovReporterTest extends Unit
             'coverage' => true
         ];
         $this->throwException(new CodeCoverageException());
-        $reporter = new CoverageReporter($config, $options);
+        $reporter = new CoverageChecker($config, $options);
         try {
             $reporter->checkCoverage($event);
             $this->fail('This test should throw an CodeCoverageException');
