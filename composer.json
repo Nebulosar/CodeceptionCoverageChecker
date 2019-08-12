@@ -2,7 +2,7 @@
     "name": "nebulosar/codeception-coverage-checker",
     "description": "Extension for codeception. Can be used to fail tests if they are under the coverage threshold",
     "type": "library",
-    "license": "MIT License",
+    "license": "MIT",
     "keywords": ["codeception", "code coverage", "coverage", "extension", "code checker", "check"],
     "homepage": "https://github.com/Nebulosar/CodeCeptCodeCov",
     "authors": [
