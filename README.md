@@ -2,10 +2,10 @@
 Extension for codeception. Can be used to fail tests if they are under the coverage threshold.
 
 ## What it does
-CovergeChecker is an extension made for Codeception. You can let your build fail when your code coveage is not high enough using this simple extension. If code coverage checks are the only thing you need from an analyser, this is what you want. No need for expensive cloud analysers!
+CoverageChecker is an extension made for Codeception. You can let your build fail when your code coverage is not high enough using this simple extension. If code coverage checks are the only thing you need from an analyser, this is what you want. No need for expensive cloud analysers!
 
 **Example**  
-Take for example your build on Travis. By runing your tests with codeception you can see if your code still works. Now, you can also check if there is enough code covered by those tests! This repository is a living example of that.
+Take for example your build on Travis. By running your tests with codeception you can see if your code still works. Now, you can also check if there is enough code covered by those tests! This repository is a living example of that.
 
 ## Install
 
@@ -58,7 +58,7 @@ coverage:
 
 **Enabled**  
 This setting is a default Codeception setting which needs to be set to `true` when you want to use the coverage part of codeception.
-At this moment, CoverageChecker also lisents to this setting to determine whether to check you coverage or not.
+At this moment, CoverageChecker also listens to this setting to determine whether to check you coverage or not.
 
 **Check**  
 This is the extension setting. When you add this attribute you have three types you can add: **classes**, **methods** and **lines**.
@@ -66,7 +66,7 @@ This determines what you want to check. If you are only interested in line cover
 
 **Limit**
 Each type of check has two attributes you may set. These are the **low_limit** and the **high_limit**.  
-* When the code coverage is below the low limit, it will throw a `CodeCoverageException` and your build failes.  
+* When the code coverage is below the low limit, it will throw a `CodeCoverageException` and your build fails.  
 * When the code coverage is below the high limit, it will give you a warning.  
 * When the code coverage is above the high limit, it will give you a message that the coverage is above the limit and will be green. (success)
 
