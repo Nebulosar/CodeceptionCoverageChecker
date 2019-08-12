@@ -5,7 +5,6 @@
     "license": "MIT",
     "keywords": ["codeception", "code coverage", "coverage", "extension", "code checker", "check"],
     "homepage": "https://github.com/Nebulosar/CodeCeptCodeCov",
-    "version": "1.0.0",
     "authors": [
         {
             "name": "Harm Zeinstra",
