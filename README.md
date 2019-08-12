@@ -11,7 +11,7 @@ Take for example your build on Travis. By running your tests with codeception yo
 
 What you need:  
 **Codeception**  
-This is pretty obvious hence it is an Codeception extension. See Codeception for more info on [extensions][codeception-extensions]
+This is pretty obvious hence it is a Codeception extension. See Codeception for more info on [extensions][codeception-extensions]
 
 **XDebug**  
 Used for generating the code coverage report. See the [XDebug download page][xdebug-download] to find your installation. If you are unsure which download you need, you could use the [XDebug wizard][xdebug-wizard] to find the right one.
