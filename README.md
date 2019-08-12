@@ -26,7 +26,7 @@ Simple add the CoverageReporter to the _codeception.yml_ file:
 ```
 extensions:
   enabled:
-    - Nebulosar\Codeception\CoverageChecker\CoverageReporter
+    - Nebulosar\Codeception\CoverageChecker
 ```
 
 Also make sure you enable the code coverage option of Codeception:
@@ -87,9 +87,9 @@ Some people like things flat and take console output very serious. Because of th
 When using this option, output will be colourless.
 
 ## Support
-When you find something that does not work like it should:
-When you find something that can be improved:
-When you think you are a neat open source programmer:
+When you find something that does not work like it should:  
+When you find something that can be improved:  
+When you think you are a neat open source programmer:  
 
 Help improve this extension for all!
 File an issue, the steps to reproduce and, if you can, open a pull request with the suggested fix!
